@@ -1,0 +1,425 @@
+STEP 1 — Test Plan
+-------------------
+
+Act as a QA Test Engineer.
+
+We are testing the Login functionality of:
+
+https://opensource-demo.orangehrmlive.com/
+
+Create a NEW file:
+
+test-plan/login-test-plan.md
+
+Do NOT create any code.
+
+Do NOT create test cases.
+
+Do NOT modify any existing files.
+
+Create a simple test plan using a Markdown table.
+
+Use these columns:
+
+| Test Plan ID | Module | Test Scenario | Priority | Expected Result |
+
+Create only these 3 scenarios:
+
+LP-001 | Login with valid credentials
+LP-002 | Login with invalid credentials
+LP-003 | Logout after successful login
+
+Keep the test plan simple and easy to understand.
+
+At the end, show:
+
+Total Test Scenarios: 3
+
+--------------------------------------------------------------------------------
+STEP 2 — Test Cases
+---------------------
+
+Act as a QA Test Engineer.
+
+Read this file:
+
+test-plan/login-test-plan.md
+
+Use it as the SOURCE OF TRUTH.
+
+Create a NEW file:
+
+test-cases/login-test-cases.md
+
+Do NOT modify the Test Plan.
+
+Convert each Test Plan scenario into one detailed Test Case.
+
+Use this table:
+
+| Test Case ID | Test Plan ID | Test Scenario | Test Data | Test Steps | Expected Result |
+
+Create:
+
+TC-001 → LP-001
+TC-002 → LP-002
+TC-003 → LP-003
+
+Keep the test cases simple.
+
+Use clear numbered steps.
+
+Example:
+
+Open the Login page.<br>
+Enter username.<br>
+Enter password.<br>
+Click Login.<br>
+Verify the result.
+
+Do not create Playwright code.
+
+Do not create Page Objects.
+
+Do not add additional test scenarios.
+
+At the end verify:
+
+Test Plan Scenarios: 3
+Test Cases Created: 3
+Missing Test Cases: 0
+-----------------------------------------------------------------------------------------------
+
+STEP 3 — Separate Test Data
+----------------------------
+Act as a QA Test Engineer.
+
+Read the existing file:
+
+test-cases/login-test-cases.md
+
+Do NOT modify this file.
+
+Create a NEW file:
+
+test-data/login-test-data.js
+
+Your task is to analyze the Test Cases and generate the test data required to execute them.
+
+### Rules
+
+1. Read every Test Case in `login-test-cases.md`.
+2. Identify what test data each test case requires.
+3. Create appropriate test data for:
+
+   * Valid login
+   * Invalid username
+   * Invalid password
+   * Invalid username and password
+4. Use the known OrangeHRM demo credentials for the valid login:
+
+   * Username: `Admin`
+   * Password: `admin123`
+5. Generate realistic but clearly invalid values for negative test cases.
+6. Do not use real people's credentials.
+7. Do not use placeholders such as `<VALID_USERNAME>`.
+8. Keep all test data in `login-test-data.js`.
+9. Do not put test data inside the Playwright test.
+10. Export the data so it can be imported into the Playwright test.
+
+Use this simple structure:
+
+const loginTestData = {
+validUser: {
+username: "...",
+password: "..."
+},
+
+```
+invalidUsername: {
+    username: "...",
+    password: "..."
+},
+
+invalidPassword: {
+    username: "...",
+    password: "..."
+},
+
+invalidUser: {
+    username: "...",
+    password: "..."
+}
+```
+
+};
+
+module.exports = { loginTestData };
+
+### Important
+
+The generated test data must match the Test Cases.
+
+At the end, provide a small mapping:
+
+| Test Case ID | Test Data Used  |
+| ------------ | --------------- |
+| TC-001       | validUser       |
+| TC-002       | invalidUsername |
+| TC-003       | invalidPassword |
+| TC-004       | invalidUser     |
+
+Do not create Playwright tests.
+
+Do not create Page Objects.
+
+Only create:
+
+test-data/login-test-data.js
+--------------------------------------------------------------------------------------
+STEP 4 — Create POM
+------------------------
+Act as a QA Automation Engineer.
+
+Read these files:
+
+test-plan/login-test-plan.md
+test-cases/login-test-cases.md
+test-data/login-test-data.js
+
+Create a NEW file:
+
+pages/LoginPage.js
+
+Use the Page Object Model (POM) design pattern.
+
+IMPORTANT:
+
+Keep the locators separate from the action methods.
+
+Do NOT use JavaScript getter methods such as:
+
+get username()
+get password()
+get loginButton()
+
+Instead, create a dedicated locator object inside the LoginPage class.
+
+Use this structure:
+
+this.locators = {
+username: '...',
+password: '...',
+loginButton: '...'
+};
+
+All Login page locators must be stored inside this `locators` object.
+
+The action methods should use the locator object.
+
+For example:
+
+async enterUsername(username) {
+await this.page.locator(this.locators.username).fill(username);
+}
+
+Create simple methods for:
+
+1. Navigate to Login page
+2. Enter username
+3. Enter password
+4. Click Login
+5. Perform Login
+6. Logout if required
+
+Keep the implementation simple and beginner-friendly.
+
+Use CSS locators where appropriate.
+
+Do not put locators inside login.spec.js.
+
+Do not create any test cases.
+
+Do not create another locator file.
+
+Do not create Playwright tests yet.
+
+The final LoginPage.js should clearly demonstrate:
+
+Locator Object
+↓
+Action Methods
+↓
+Test Script uses Page Object
+--------------------------------------------------------------------------------------------
+
+STEP 5 — Generate Playwright Test
+----------------------------------
+Read these files:
+
+test-plan/login-test-plan.md
+test-cases/login-test-cases.md
+test-data/login-test-data.js
+pages/LoginPage.js
+
+Create a NEW file:
+
+tests/login.spec.js
+
+Generate simple Playwright JavaScript tests for the Test Cases.
+
+Requirements:
+
+* Use Playwright Test.
+* Use LoginPage.
+* Import test data from login-test-data.js.
+* Create one test for each Test Case.
+* Use simple assertions.
+* Keep the code easy to understand.
+* Do not put locators directly in login.spec.js.
+* Do not hardcode credentials.
+* Do not add additional test scenarios.
+
+Use test titles containing the Test Case ID.
+
+For example:
+
+TC-001 - Valid Login
+
+Do not over-engineer the framework.
+
+This is a demonstration project, so prioritize clarity and simplicity.
+----------------------------------------------------------------------------
+STEP 6 — Execut
+----------------
+
+Execute the Login Playwright tests.
+
+Run:
+
+npx playwright test tests/login.spec.js
+
+Show me:
+
+* Total tests
+* Passed
+* Failed
+* Skipped
+
+Do not modify the code before execution.
+
+Do not automatically fix failures yet.
+-------------------------------------------------------------------------------
+STEP 7 — Intentionally Create a Failure
+-------------------------------------------
+
+For example, change the login button locator in LoginPage.js to an incorrect locator.
+
+Then run:
+
+npx playwright test tests/login.spec.js
+
+-----------------------------------------------------------------------------------------
+
+STEP 8 — Analyze Failure
+-----------------------
+Analyze the failed Playwright test.
+
+Do NOT change the code yet.
+
+Read the test result and error message.
+
+Determine:
+
+1. Which Test Case failed?
+2. Which line of code failed?
+3. What is the likely root cause?
+4. Is it a locator problem, test-data problem, assertion problem, or application problem?
+5. What should be changed to fix it?
+
+Explain the problem in simple terms.
+befor analysing re execute it 3 to 5 times to find flakey tests
+Wait before modifying the code.
+---------------------------------------------------------------------------------
+
+STEP 9 — Fix
+-------------
+Fix the automation issue identified in the previous analysis.
+
+Requirements:
+
+* Modify only the files necessary to fix the failure.
+* Do not modify the Test Plan.
+* Do not modify the Test Cases unless they are actually incorrect.
+* Keep the Page Object Model structure.
+* Do not hardcode test data.
+* Keep the solution simple.
+
+After making the fix, run the failed test again:
+
+npx playwright test tests/login.spec.js
+---------------------------------------------------------------------------------------
+STEP 10 — Re-run
+
+Re-run the complete Login test suite:
+
+npx playwright test tests/login.spec.js
+
+Report:
+
+Total Tests:
+Passed:
+Failed:
+Skipped:
+
+For each failed test, provide the Test Case ID and failure reason.
+
+Do not make further changes unless I ask you to fix another failure.
+----------------------------------------------------------------------------------
+STEP 11 — Generate Test Report
+-----------------------------------
+Read:
+
+test-plan/login-test-plan.md
+test-cases/login-test-cases.md
+
+Also review the latest Playwright test execution result.
+
+Create a NEW file:
+
+reports/login-test-report.md
+
+Create a simple test execution report containing:
+
+# Login Test Execution Report
+
+## Summary
+
+| Metric      | Result |
+| ----------- | -----: |
+| Total Tests |        |
+| Passed      |        |
+| Failed      |        |
+| Skipped     |        |
+
+## Test Results
+
+| Test Case ID | Test Scenario | Status | Remarks |
+| ------------ | ------------- | ------ | ------- |
+
+## Failure Analysis
+
+If any test failed, include:
+
+* Test Case ID
+* Failure
+* Root Cause
+* Fix Applied
+
+## Final Result
+
+PASS / FAIL
+
+Keep the report simple.
+
+Do not modify the Test Plan, Test Cases, Test Data, Page Object, or Test Script.
